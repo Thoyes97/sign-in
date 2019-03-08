@@ -7,24 +7,22 @@
 //
 
 import UIKit
+import Firebase
 
 class StartViewController: UIViewController {
 
+    //    Collection of UI attributes that allow interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        //  Code retrieved from https: //medium.com/@ashikabala01/how-to-build-login-and-sign-up-functionality-for-your-ios-app-using-firebase-within-15-mins-df4731faf2f7
+        
+        // Looks to see if the user is already logged in - if it does brings them right to the Homeview
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "alreadyLoggedIn", sender: nil)
+        }
     }
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
