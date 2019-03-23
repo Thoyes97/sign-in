@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
 
 class SignUpViewController: UIViewController {
@@ -50,6 +51,8 @@ class SignUpViewController: UIViewController {
                     
                     alertController.addAction(defaultAction)
                     self.present(alertController, animated: true, completion: nil)
+                    
+                
                 }
             }
         }
