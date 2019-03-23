@@ -8,4 +8,5 @@ target 'sign-in' do
   # Pods for sign-in
 	pod 'Firebase/Core'
  	pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 end
