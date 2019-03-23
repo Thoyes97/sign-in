@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import FirebaseDatabase
 
 
 class SignUpViewController: UIViewController {
@@ -18,6 +17,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
    @IBOutlet weak var confirmPass: UITextField!
+    @IBOutlet weak var fullName: UITextField!
+    var ref: DatabaseReference!
     
 //    Makes sure that the view controller has loaded
     override func viewDidLoad() {
@@ -40,6 +41,7 @@ class SignUpViewController: UIViewController {
         }
         else{
             // Send the resgister request to Firebase and brings the user to the first page
+            
             Auth.auth().createUser(withEmail: email.text!, password: password.text!){ (user, error) in
                 if error == nil {
                     self.performSegue(withIdentifier: "signupToHome", sender: self)
@@ -51,11 +53,23 @@ class SignUpViewController: UIViewController {
                     
                     alertController.addAction(defaultAction)
                     self.present(alertController, animated: true, completion: nil)
-                    
-                
+
                 }
+//                Code retrieved from https://www.youtube.com/watch?v=z0-ME5HYook&list=PLaXWdRaxFtVcgioOVP6UxFt43KQ6Gjur_&index=13. To allow for users to get stored to a database once they have created an account.
+//                Since the originally sourced video was made syntax for the database reference has been altered, code retrieved from https://firebase.google.com/docs/database/ios/read-and-write
+                let ref = Database.database().reference()
+                let usersReference = ref.child("users")
+                print(usersReference.description())
+                
+                //                Since the originally sourced video was made syntax to retrieve the UID has been altered. Code retrieved from https://stackoverflow.com/questions/51413651/firebase-database-user-uid
+                let uuid = Auth.auth().currentUser?.uid
+                
+                let newUserReference = usersReference.child((uuid ?? nil)!)
+                newUserReference.setValue(["Full Name": self.fullName.text!, "Email": self.email.text!])
+                print(" user location \(newUserReference.description())")
             }
         }
     }
 
 }
+
