@@ -10,10 +10,25 @@ import UIKit
 import Firebase
 
 class HomeViewController: UIViewController {
-
+    
+//code retrieved from https://www.youtube.com/watch?v=GA8K1YyAM5E&t=440s
+    var welcomeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 28)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.alpha = 0
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+//       code retrieved from  https://www.youtube.com/watch?v=GA8K1YyAM5E&t=440s
+        view.addSubview(welcomeLabel)
+        welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        welcomeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadUserData()
         // Do any additional setup after loading the view.
     }
     
@@ -29,16 +44,32 @@ class HomeViewController: UIViewController {
         let initial = storyboard.instantiateInitialViewController()
         UIApplication.shared.keyWindow?.rootViewController = initial
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+//     code retrieved from https://www.youtube.com/watch?v=GA8K1YyAM5E&t=440s
+    func loadUserData(){
+        guard let uid =  Auth.auth().currentUser?.uid else {return}
+        Database.database().reference().child("users").child(uid).child("Full Name").observeSingleEvent(of: .value)
+        {
+            (snapshot) in
+            guard let fullName = snapshot.value as? String else {return}
+            self.welcomeLabel.text = "Welcome, \(fullName)"
+            UILabel.animate(withDuration: 0.5 , animations: {
+                self.welcomeLabel.alpha = 1
+            })
+        }
     }
-    */
+//    This version will be used when a user logs in
+//      code retrieved from https://www.youtube.com/watch?v=GA8K1YyAM5E&t=440s
+//    func loadUserData(){
+//        guard let uid =  Auth.auth().currentUser?.uid else {return}
+//        Database.database().reference().child("users").child(uid).child("Full Name").observeSingleEvent(of: .value)
+//        {
+//            (snapshot) in
+//            guard let fullName = snapshot.value as? String else {return}
+//            self.welcomeLabel.text = "Welcome back, \(fullName)"
+//            UILabel.animate(withDuration: 0.5 , animations: {
+//                self.welcomeLabel.alpha = 1
+//            })
+//        }
+//    }
 
 }

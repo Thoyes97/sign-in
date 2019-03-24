@@ -61,9 +61,10 @@ class SignUpViewController: UIViewController {
                 let usersReference = ref.child("users")
                 print(usersReference.description())
                 
+                
+                
                 //                Since the originally sourced video was made syntax to retrieve the UID has been altered. Code retrieved from https://stackoverflow.com/questions/51413651/firebase-database-user-uid
                 let uuid = Auth.auth().currentUser?.uid
-                
                 let newUserReference = usersReference.child((uuid ?? nil)!)
                 newUserReference.setValue(["Full Name": self.fullName.text!, "Email": self.email.text!])
                 print(" user location \(newUserReference.description())")
